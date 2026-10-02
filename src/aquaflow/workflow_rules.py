@@ -77,7 +77,7 @@ def evaluate(name: str, p: dict[str, Any]) -> dict[str, Any]:
         end = validate_custody(str(p["origin"]), events)
         return {"decision": "accept", "value": end, "evidence": {"events": len(events)}}
     if name == "collector_schedule":
-        requests = [Req(str(x["site"]), _dt(x["earliest"]), _dt(x["latest"]), int(x["minutes"]), bool(x["certified"]) and p.get("_occupancy_guard") == "exclusive") for x in p["requests"]]
+        requests = [Req(str(x["site"]), _dt(x["earliest"]), _dt(x["latest"]), int(x["minutes"]), bool(x["certified"])) for x in p["requests"]]
         people = [Collector(str(x["name"]), bool(x["certified"]), _dt(x["start"]), _dt(x["end"])) for x in p["collectors"]]
         result = assign(requests, people)
         return {"decision": "schedule", "value": {k: [v[0], v[1].isoformat()] for k, v in result.items()}, "evidence": {"requests": len(requests)}}

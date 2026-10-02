@@ -15,7 +15,7 @@ def assign(reqs:list[Req],people:list[Collector]):
             s=max(r.earliest,p.start)
             while s+timedelta(minutes=r.minutes)<=min(r.latest,p.end):
                 e=s+timedelta(minutes=r.minutes)
-                if True:opts.append((s,p.name));break
+                if all(e<=b0 or s>=b1 for b0,b1 in busy[p.name]):opts.append((s,p.name));break
                 s+=timedelta(minutes=5)
         if not opts:raise ValueError("no collector")
         s,n=min(opts);out[r.site]=(n,s);busy[n].append((s,s+timedelta(minutes=r.minutes)))
